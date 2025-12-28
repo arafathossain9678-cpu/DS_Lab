@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 void swap(int A[], int i, int j)
 {
     int temp = A[i];
@@ -6,7 +7,8 @@ void swap(int A[], int i, int j)
     A[j] = temp;
 }
 
-int partition(int A[], int BEG, int END)
+
+int partition1(int A[], int BEG, int END)
 {
     int LEFT = BEG;
     int RIGHT = END;
@@ -43,6 +45,52 @@ int partition(int A[], int BEG, int END)
         }
     }
     return LOC;
+}
+
+
+void swap2(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+int partition2(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++) {
+        // CHANGED: '>' for Descending Order
+        if (arr[j] < pivot) {
+            i++;
+            swap2(&arr[i], &arr[j]);
+        }
+    }
+    swap2(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high]; // Pivot is the last element
+    int i = (low - 1);     // Index of smaller element
+    int j, temp;
+
+    for (j = low; j <= high - 1; j++) {
+        // If current element is smaller than the pivot
+        if (arr[j] > pivot) {
+            i++;
+            // Swap arr[i] and arr[j]
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    // Swap arr[i+1] and arr[high] (the pivot)
+    temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+
+    return (i + 1);
 }
 
 void quickSort(int A[], int BEG, int END)
